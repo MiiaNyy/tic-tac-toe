@@ -1,0 +1,57 @@
+header {
+    text-align: center;
+    font-family: 'Staatliches', cursive;
+    font-size: 40px;
+}
+
+.container {
+    width: 95vw;
+    height: 93vh;
+}
+
+.content-container {
+    margin: auto;
+    width: 100%;
+    height: 70%
+}
+
+.player-container {
+    display: grid;
+
+    width: 700px;
+    margin: auto;
+    grid-template-columns: repeat(2, 60px);
+    grid-template-rows: repeat(1, 60px);
+    justify-content: space-between;
+}
+
+.player {
+    justify-self: center;
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
+    border: 1px solid black;
+}
+
+.gameboard {
+    font-family: 'Montserrat', sans-serif;
+    width: 500px;
+    height: fit-content;
+    margin: 0px auto;
+    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, 150px);
+    grid-template-rows: repeat(3, 150px);
+    }
+    
+.b {
+    border-bottom: 1px solid black;
+}
+.r {
+    border-right: 1px solid black;
+}
+
+.game-square {
+    text-align: center;
+    font-size: 110px;
+}
