@@ -1,6 +1,7 @@
 body {
     font-family: 'Staatliches', cursive;
     margin: 0;
+    
 }
 
 header {
@@ -10,6 +11,15 @@ header {
 
 header h1 {
     margin: 20px 0;
+    text-shadow: 4px 2px 0px rgba(255, 150, 150, 1);
+}
+
+.container {
+    max-width: 1000px;
+    margin: 20px auto;
+    border: 5px black double;
+    background-color: rgb(241, 210, 255);
+    padding-bottom: 50px;
 }
 
 .starting-screen {
@@ -34,6 +44,7 @@ header h1 {
 .character {
     transition: all .3s cubic-bezier(0.42, 0, 0.13, 1.55);
     background-color: rgb(127, 157, 255);
+    box-shadow: 5px 5px 5px 0px rgba(50, 50, 50, 0.75);
 }
 
 .character img:hover {
@@ -43,8 +54,7 @@ header h1 {
 .character img {
     width: 75px;
     height: 75px;    
-    padding: 10px;
-    
+    padding: 10px;    
 }
 
 .mark-container {
@@ -65,11 +75,8 @@ header h1 {
     font-size: 80px;
     background-color: #a099f8;
     transition: all .3s cubic-bezier(0.42, 0, 0.13, 1.55);
-
+    box-shadow: 5px 5px 5px 0px rgba(50, 50, 50, 0.75);
 }
-
-
-
 
 .mark:hover {
     background-color: #62a9f0;    
@@ -84,17 +91,15 @@ header h1 {
     height: 40px;
     font-size: 18px;
     border: none;
-    box-shadow: 5px 5px 16px -6px #adabab;
+    box-shadow: 5px 5px 5px 0px rgba(160, 160, 160, 0.575);
     transition: all .4s ease-in-out;
 }
 
-.start-game-btn:hover {
-    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
-    background-color: rebeccapurple;
-}
+
 
 .game-container {
-    margin: 50px auto;
+    margin: auto;
+    margin-top: 30px;
     max-width: 800px;
     display: none;
 }
@@ -105,21 +110,30 @@ header h1 {
     position: absolute;
     left: 0;
     right: 0;
-    top: 300px;
+    top: 320px;
     margin-left: auto;
     margin-right: auto;
-    grid-template-columns: repeat(2, 80px);
-    grid-template-rows: repeat(1, 80px);
+    grid-template-columns: repeat(2, 100px);
+    grid-template-rows: repeat(1, 100px);
     justify-content: space-between;
-    z-index: -1;
+    border: 1px solid black;
+    align-content: center;
+
 }
 
 .player {
     text-align: center;
-    width: 80px;
-    height: 80px;
     margin-bottom: 10px;
-    
+    transition: all .3s cubic-bezier(0.42, 0, 0.13, 1.55);
+    background-color: rgb(127, 157, 255);
+    box-shadow: 5px 5px 5px 0px rgba(50, 50, 50, 0.75);
+
+}
+
+.player img {
+    width: 75px;
+    height: 75px;    
+    padding: 10px;
 }
 
 .message-container {
@@ -140,11 +154,11 @@ header h1 {
 }
 
 .button-container {
+    text-align: center;
     margin-top: 20px;
 }
 
 .new-game-btn {
-    margin: 0 auto;
     font-family: 'Staatliches', cursive;
     background-color: #90e0ef;
     width: 100px;
@@ -152,7 +166,6 @@ header h1 {
     font-size: 18px;
     border: none;
     box-shadow: 5px 5px 16px -6px #62a9f0;
-    display: none;
     
 }
 
@@ -164,12 +177,13 @@ header h1 {
 .gameboard {
     font-family: 'Montserrat', sans-serif;
     width: 500px;
-    height: fit-content;
+    height: 400px;
     margin: 50px auto;
+    margin-bottom: 70px;
     justify-content: center;
     display: grid;
-    grid-template-columns: repeat(3, 150px);
-    grid-template-rows: repeat(3, 150px);
+    grid-template-columns: repeat(3, 140px);
+    grid-template-rows: repeat(3, 140px);
 }
 
 .b {

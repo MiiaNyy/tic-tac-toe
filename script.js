@@ -85,7 +85,7 @@ function selectCharacter(e) {
             break;
 
     }
-    playersIcon.innerHTML = '<img src="/pics/' + character + '.png" id="' + characterId + '">' + characterId;
+    playersIcon.innerHTML = '<img src="/pics/' + character + '.png" id="' + characterId + '"><p>' + characterId + '</p>';
 
     characterSelected = true;
     playersName = characterId;
@@ -165,6 +165,12 @@ function reset() {
 
 }
 
+function startingMessage() {
+    message.innerHTML = 'Welcome ' + player.name + '!';
+    setTimeout(function () {
+        message.innerHTML = "<p style='font-size: 15px;'>" + player.name + ", you can start the game. <br> Just click the game board and try to beat the bad guy</p>";
+    }, 2000);
+}
 
 function currentPlayerTurnMessage(playerName) {
     message.innerText = "It's " + playerName + "s turn";
@@ -382,22 +388,32 @@ function startGame() {
 
 }
 
-function changeStartButtonAppearance(element) {
+function changeStartButtonColor(element) {
     if (element) {
         startGameBtn.style.backgroundColor = '#fd9999';
         startGameBtn.style.color = 'black';
     }
 }
 
+function addStartButtonHover() {
+    if(characterSelected && markerSelected) {
+        startGameBtn.addEventListener('mouseenter', function() {
+            startGameBtn.style.backgroundColor = 'red';
+        })
+        
+        startGameBtn.addEventListener('mouseleave', function() {
+            startGameBtn.style.backgroundColor = '#fd9999';
+        })
+    }
+}
+
+
 toggleElementSizeWhenClicked('character');
 toggleElementSizeWhenClicked('mark');
 
-function startingMessage() {
-    message.innerHTML = 'Welcome ' + player.name + '!';
-    setTimeout(function () {
-        message.innerHTML = "<p style='font-size: 15px;'>" + player.name + ", you can start the game. <br> Just click the game board and try to beat the bad guy</p>";
-    }, 2000);
-}
+
+
+
 
 gameBoardContainer.addEventListener('click', function (e) {
     if (gameActive) {
@@ -415,19 +431,23 @@ startGameBtn.addEventListener('click', function () {
     makePlayerObjects();
     startingMessage()
     console.log(playersName + ' ' + playersMark);
-
 })
+
+
+
 
 characters.forEach(function (character) {
     character.addEventListener('click', function (e) {
         selectCharacter(e);
-        changeStartButtonAppearance(markerSelected);
+        changeStartButtonColor(markerSelected);
+        addStartButtonHover();
     })
 })
 
 markerBtns.forEach(function (mark) {
     mark.addEventListener('click', function (e) {
         selectMarker(e);
-        changeStartButtonAppearance(characterSelected);
+        changeStartButtonColor(characterSelected);
+        addStartButtonHover();
     })
 })
