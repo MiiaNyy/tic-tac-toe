@@ -14,13 +14,34 @@
         <header>
             <h1>Tic-Tac-Toe</h1>
         </header>
-        <div class="content-container">
+
+        <div class="starting-screen">
+            <h2>Choose your character..</h2>
+            <div class="character-container">
+                <div class="character"><img src="/pics/bear.png" id="Beau">Beau the bear</div>
+                <div class="character"><img src="/pics/dinosaur.png" id="Dean">Dean the dinosaur</div>
+                <div class="character"><img src="/pics/ninja.png" id="Nelly">Nelly the ninja</div>
+                <div class="character"><img src="/pics/plant-pot.png" id="Priscilla">Priscilla the plant pot</div>                
+            </div>
+            <h2>And marker:</h2>
+            <div class="mark-container">
+                
+                <div id="x" class="mark">x</div>
+                <div>or</div>
+                <div id="o" class="mark">o</div>
+            </div>
+            <div class="button-container">
+                <button class="start-game-btn">Start game</button>
+            </div>
+        </div>
+
+        <div class="game-container">
             <div class="player-container">
-                <div class="player"><p>Human</p></div>
-                <div class="player"><p>Computer</p></div>
+                <div id="players-icon" class="player"><img src="/pics/plant-pot.png" id="plant">Priscilla the plant pot</div>
+                <div class="player"><img src="/pics/account.png">The bad guy</div>
             </div>
             <div class="message-container">
-                <p class="message">Human starts the game</p>
+                <p class="message"></p>
                 <!--players turn message and winner message -->
             </div>
 
@@ -45,3 +66,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+

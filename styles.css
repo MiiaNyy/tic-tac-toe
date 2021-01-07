@@ -12,9 +12,91 @@ header h1 {
     margin: 20px 0;
 }
 
-.content-container {
+.starting-screen {
+    text-align: center;
+}
+
+.starting-screen h2 {
+    margin-top: 50px;
+}
+
+.character-container {
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+    grid-template-rows: repeat(1, 100px);
+    grid-column-gap: 30px;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 60px;
+    height: 150px;
+}
+
+.character {
+    transition: all .3s cubic-bezier(0.42, 0, 0.13, 1.55);
+    background-color: rgb(127, 157, 255);
+}
+
+.character img:hover {
+    background-color: #a099f8;
+}
+
+.character img {
+    width: 75px;
+    height: 75px;    
+    padding: 10px;
+    
+}
+
+.mark-container {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(1, 100px);
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
+
+.mark {
+    width: 100px;
+    height: 100px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 80px;
+    background-color: #a099f8;
+    transition: all .3s cubic-bezier(0.42, 0, 0.13, 1.55);
+
+}
+
+
+
+
+.mark:hover {
+    background-color: #62a9f0;    
+}
+
+.start-game-btn {
+    margin: 0 auto;
+    font-family: 'Staatliches', cursive;
+    background-color: #a5a5a52c;
+    color: rgb(141, 141, 141);   
+    width: 100px;
+    height: 40px;
+    font-size: 18px;
+    border: none;
+    box-shadow: 5px 5px 16px -6px #adabab;
+    transition: all .4s ease-in-out;
+}
+
+.start-game-btn:hover {
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+    background-color: rebeccapurple;
+}
+
+.game-container {
     margin: 50px auto;
     max-width: 800px;
+    display: none;
 }
 
 .player-container {
@@ -26,17 +108,18 @@ header h1 {
     top: 300px;
     margin-left: auto;
     margin-right: auto;
-    grid-template-columns: repeat(2, 60px);
-    grid-template-rows: repeat(1, 60px);
+    grid-template-columns: repeat(2, 80px);
+    grid-template-rows: repeat(1, 80px);
     justify-content: space-between;
+    z-index: -1;
 }
 
 .player {
     text-align: center;
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     margin-bottom: 10px;
-    border: 1px solid black;
+    
 }
 
 .message-container {
@@ -44,8 +127,16 @@ header h1 {
     border: 1px solid black;
     text-align: center;
     width: 250px;
-    height: 150px;
+    height: 110px;
     font-size: 2em;
+}
+
+.message-container p {
+    margin-top: 15px;
+}
+
+#smaller-txt {
+    font-size: 20px;
 }
 
 .button-container {
@@ -62,6 +153,7 @@ header h1 {
     border: none;
     box-shadow: 5px 5px 16px -6px #62a9f0;
     display: none;
+    
 }
 
 .new-game-btn:hover {
