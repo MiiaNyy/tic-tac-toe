@@ -16,6 +16,30 @@
         </header>
 
         <div class="starting-screen">
+            <h2>Hello there, before we start...</h2>
+            <h2>please select how many players there are:</h2>
+            <div class="select-players-container">    
+                
+                <div class="div1">
+                    <h2>1 player</h2>
+                </div>
+                <div class="div2"></div>
+                <div class="div3">
+                    <h2>2 players</h2>
+                </div>
+                <div class="div4 one-player-btn">
+                    <div class="icon1"><img src="/pics/plant-pot.png" id="Priscilla"></div>  
+                </div>
+                <div class="div5"><p>or</p></div>
+                <div class="div6 two-players-btn">
+                    <div class="icon1"><img src="/pics/beautiful.png" id="Dean"></div>
+                    <div class="icon1"><img src="/pics/dinosaur.png" id="Dean"></div>
+                </div>         
+
+            </div>
+        </div>
+
+        <div class="char-select-container">
             <h2>Choose your character..</h2>
             <div class="character-container">
                 <div class="character"><img src="/pics/bear.png" id="Beau"><p>Beau the bear</p> </div>
@@ -24,8 +48,7 @@
                 <div class="character"><img src="/pics/plant-pot.png" id="Priscilla"><p>Priscilla the plant pot</p></div>                
             </div>
             <h2>And weapon:</h2>
-            <div class="mark-container">
-                
+            <div class="mark-container">                
                 <div id="x" class="mark">x</div>
                 <div>or</div>
                 <div id="o" class="mark">o</div>
@@ -39,10 +62,13 @@
             <div class="player-container">
                 <div id="players-icon" class="player"><img src="/pics/plant-pot.png" id="plant">Priscilla the plant pot</div>
  
-                <div class="player"><img src="/pics/account.png"><p>The bad guy</p></div>
+                <div id="player2-icon" class="player"><img src="/pics/account.png"><p>The bad guy</p></div>
             </div>
             <div class="message-container">
-                <p class="message"></p>
+                
+                    <p class="message"></p>
+                
+                
                 <!--players turn message and winner message -->
             </div>
 
@@ -60,7 +86,8 @@
                 <div id="c3" class="game-cell"></div>
             </div>
             <div class="button-container">
-                <button class="new-game-btn">New game</button>
+                <button id="new-round" class="game-button">New round</button>
+                <button id="reset" class="game-button">reset</button>
             </div>
         </div>
     </div>

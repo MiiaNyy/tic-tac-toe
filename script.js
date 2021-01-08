@@ -1,7 +1,12 @@
 let gameBoardContainer = document.querySelector('.gameboard')
 let gameCell = document.querySelectorAll('.game-cell');
 
-let newGameBtn = document.querySelector('.new-game-btn');
+let onePlayerBtn = document.querySelector('.one-player-btn');
+let twoPlayersBtn = document.querySelector('.two-players-btn');
+
+let newRoundBtn = document.querySelector('#new-round');
+let resetToStartBtn = document.querySelector('#reset');
+
 let startGameBtn = document.querySelector('.start-game-btn');
 
 let messageContainer = document.querySelector('.message-container');
@@ -9,6 +14,8 @@ let message = document.querySelector('.message');
 
 let characters = document.querySelectorAll('.character');
 let markerBtns = document.querySelectorAll('.mark');
+
+let twoPlayersPlay = false;
 
 let characterSelected = false;
 let markerSelected = false;
@@ -61,14 +68,13 @@ function makePlayerObjects() {
     player = new Player(playersName, playersMark);
     computer = new Player('the bad guy', computersMark);
 
-    console.log('players name is ' + player.name + ' and their mark is ' + player.marker);
-    console.log('computers name is ' + computer.name + ' and his mark is ' + computer.marker);
 }
 
 function selectCharacter(e) {
     let playersIcon = document.querySelector('#players-icon');
     let characterId = e.target.id;
     let character = '';
+
 
     switch (characterId) {
         case 'Beau':
@@ -83,9 +89,10 @@ function selectCharacter(e) {
         case 'Priscilla':
             character = 'plant-pot';
             break;
-
     }
-    playersIcon.innerHTML = '<img src="/pics/' + character + '.png" id="' + characterId + '"><p>' + characterId + '</p>';
+
+
+    playersIcon.innerHTML = '<img src="/pics/' + character + '.png" id="' + characterId + '"><p>' + characterId + ' the ' + character + '</p>';
 
     characterSelected = true;
     playersName = characterId;
@@ -98,7 +105,7 @@ function selectMarker(e) {
     playersMark = markerId;
 }
 
-function toggleElementSizeWhenClicked(className) {
+function toggleElementSizeWhenClicked(className, color) {
     //Get all the matched Elements
     let elements = document.querySelectorAll("." + className);
     //Use an variable to rememeber previous clicked element
@@ -110,7 +117,7 @@ function toggleElementSizeWhenClicked(className) {
                 // if any previous element was clicked then transform of that element is none
                 if (prevIndex !== -1) {
                     elements[prevIndex].style.transform = "none";
-                    elements[prevIndex].style.backgroundColor = 'rgb(127, 157, 255)';
+                    elements[prevIndex].style.backgroundColor = color;
                 }
                 // change transform of current element
                 item.style.transform = "scale(1.3)";
@@ -123,12 +130,14 @@ function toggleElementSizeWhenClicked(className) {
     })
 }
 
-function reset() {
+
+function newRound() {
     playersTurn = true;
     roundWon = false;
     gameActive = true;
 
-    newGameBtn.style.display = 'none';
+    newRoundBtn.style.display = 'none';
+    resetToStartBtn.style.display = 'none';
 
     winningConditions = [
         ['a1', 'a2', 'a3'],
@@ -166,10 +175,10 @@ function reset() {
 }
 
 function startingMessage() {
-    message.innerHTML = 'Welcome ' + player.name + '!';
+    message.innerHTML = 'Welcome <br>' + player.name + '!';
     setTimeout(function () {
-        message.innerHTML = "<p style='font-size: 15px;'>" + player.name + ", you can start the game. <br> Just click the game board and try to beat the bad guy</p>";
-    }, 2000);
+        message.innerHTML = "<p style='font-size: 23px'>" + player.name + ", you start the game. <br> Try to beat " + computer.name + "</p>";
+    }, 1700);
 }
 
 function currentPlayerTurnMessage(playerName) {
@@ -308,7 +317,8 @@ function checkPlayStatus(player) {
             roundWon = true;
             gameActive = false;
             winningMessage(player);
-            newGameBtn.style.display = 'block';
+            newRoundBtn.style.display = 'inline-block';
+            resetToStartBtn.style.display = 'inline-block';
             return true;
         }
     }
@@ -316,7 +326,8 @@ function checkPlayStatus(player) {
     let gameIsADraw = checkIfGameIsDraw();
 
     if (gameIsADraw) {
-        newGameBtn.style.display = 'block';
+        newRoundBtn.style.display = 'inline-block';
+        resetToStartBtn.style.display = 'inline-block';
         gameEndedInATieMessage();
         roundWon = true;
         gameActive = false;
@@ -383,71 +394,106 @@ function updateGameBoardCondition(arr, elementId, marker) {
 function startGame() {
     if (characterSelected && markerSelected) {
         document.querySelector('.game-container').style.display = 'block';
-        document.querySelector('.starting-screen').style.display = 'none';
+        document.querySelector('.char-select-container').style.display = 'none';
     }
 
 }
 
 function changeStartButtonColor(element) {
     if (element) {
-        startGameBtn.style.backgroundColor = '#fd9999';
+        startGameBtn.style.backgroundColor = '#84dcc6';
         startGameBtn.style.color = 'black';
     }
 }
 
 function addStartButtonHover() {
-    if(characterSelected && markerSelected) {
-        startGameBtn.addEventListener('mouseenter', function() {
-            startGameBtn.style.backgroundColor = 'red';
+    if (characterSelected && markerSelected) {
+        startGameBtn.addEventListener('mouseenter', function () {
+            startGameBtn.style.backgroundColor = '#a7e9d8';
+            startGameBtn.style.transform = 'scale(1.1)';
         })
-        
-        startGameBtn.addEventListener('mouseleave', function() {
-            startGameBtn.style.backgroundColor = '#fd9999';
+
+        startGameBtn.addEventListener('mouseleave', function () {
+            startGameBtn.style.backgroundColor = '#84dcc6';
+            startGameBtn.style.transform = 'none';
         })
     }
 }
 
 
-toggleElementSizeWhenClicked('character');
-toggleElementSizeWhenClicked('mark');
 
 
 
 
 
-gameBoardContainer.addEventListener('click', function (e) {
-    if (gameActive) {
-        currentPlayersTurn(e);
-    }
-})
 
-newGameBtn.addEventListener('click', function () {
-    reset();
+function eventListeners() {
 
-})
-
-startGameBtn.addEventListener('click', function () {
-    startGame();
-    makePlayerObjects();
-    startingMessage()
-    console.log(playersName + ' ' + playersMark);
-})
-
-
-
-
-characters.forEach(function (character) {
-    character.addEventListener('click', function (e) {
-        selectCharacter(e);
-        changeStartButtonColor(markerSelected);
-        addStartButtonHover();
+        startGameBtn.addEventListener('click', function () {
+        startGame();
+        /*if(twoPlayersBtn) {
+            //tee kummallekin pelaajalle oma objekti ja laita start message tulemaan
+            //missa lukee kummankin nimi ja kumpi aloittaa
+        }*/
+        makePlayerObjects();
+        startingMessage()
+        console.log(playersName + ' ' + playersMark);
     })
-})
 
-markerBtns.forEach(function (mark) {
-    mark.addEventListener('click', function (e) {
-        selectMarker(e);
-        changeStartButtonColor(characterSelected);
-        addStartButtonHover();
+
+
+    resetToStartBtn.addEventListener('click', function () {
+        window.location.reload();
     })
-})
+
+    newRoundBtn.addEventListener('click', function () {
+        newRound();
+    })
+    gameBoardContainer.addEventListener('click', function (e) {
+        if (gameActive) {
+            currentPlayersTurn(e);
+        }
+    })
+
+
+
+
+
+
+
+
+    characters.forEach(function (character) {
+        character.addEventListener('click', function (e) {
+            selectCharacter(e);
+            changeStartButtonColor(markerSelected);
+            addStartButtonHover();
+        })
+    })
+
+    markerBtns.forEach(function (mark) {
+        mark.addEventListener('click', function (e) {
+            selectMarker(e);
+            changeStartButtonColor(characterSelected);
+            addStartButtonHover();
+        })
+    })
+
+    twoPlayersBtn.addEventListener('click', function () {
+        twoPlayersPlay = true;
+        document.querySelector('.starting-screen').style.display = 'none';
+        document.querySelector('.char-select-container').style.display = 'block';
+
+    })
+
+    onePlayerBtn.addEventListener('click', function () {
+        twoPlayersPlay = false;
+        document.querySelector('.starting-screen').style.display = 'none';
+        document.querySelector('.char-select-container').style.display = 'block';
+
+    })
+
+}
+
+eventListeners();
+toggleElementSizeWhenClicked('character', '#ffafcc');
+toggleElementSizeWhenClicked('mark', '#e4c1f9');
