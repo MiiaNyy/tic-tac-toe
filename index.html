@@ -6,11 +6,13 @@
     <title>Tic-Tac-Toe</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet">    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">  
+    <link rel="shortcut icon" href="/pics/favi.png" type="image/x-icon">
 </head>
 <body>
     
     <div class="container">
+        
         <header>
             <h1>Tic-Tac-Toe</h1>
         </header>
@@ -18,7 +20,7 @@
         <div class="starting-screen">
             <h2>Hello there, before we start...</h2>
             <h2>please select how many players there are:</h2>
-            <div class="select-players-container">    
+            <div class="player-count-container">    
                 
                 <div class="div1">
                     <h2>1 player</h2>
@@ -27,53 +29,86 @@
                 <div class="div3">
                     <h2>2 players</h2>
                 </div>
-                <div class="div4 one-player-btn">
-                    <div class="icon1"><img src="/pics/plant-pot.png" id="Priscilla"></div>  
+                <div  class="div4 player-count-btn">
+                    <div id="one" class="icon"><img id="one" src="/pics/plant-pot.png"></div>  
                 </div>
                 <div class="div5"><p>or</p></div>
-                <div class="div6 two-players-btn">
-                    <div class="icon1"><img src="/pics/beautiful.png" id="Dean"></div>
-                    <div class="icon1"><img src="/pics/dinosaur.png" id="Dean"></div>
-                </div>         
-
+                <div class="div6 player-count-btn">
+                    <div class="icon"><img src="/pics/sparkly.png"></div>
+                    <div class="icon"><img src="/pics/dinosaur.png"></div>
+                </div> 
             </div>
         </div>
 
-        <div class="char-select-container">
-            <h2>Choose your character..</h2>
+        <div class="two-players-container">            
+            <h2>Then choose your characters..</h2>
+            <div class="players-grid-container">
+                <div  class="character2-container">
+                    <h2 class="player1-header">Player 1</h2>
+                    <div id="player1">
+                        <div class="character character-player-1"><img src="/pics/bear.png" id="Beau"></div>
+                        <div class="character character-player-1"><img src="/pics/dinosaur.png" id="Dean"></div>
+                        <div class="character character-player-1"><img src="/pics/ninja.png" id="Nelly"></div>
+                        <div class="character character-player-1"><img src="/pics/plant-pot.png" id="Priscilla"></div>
+                    </div>
+                
+                </div>
+
+                <div  class="character2-container">
+                    <h2 class="player1-header">Player 2</h2>
+                    <div id="player2">
+                        <div class="character character-player-2"><img src="/pics/sparkly.png" id="Sabrina"></div>
+                        <div class="character character-player-2"><img src="/pics/bad-guy.png" id="Bean"></div>
+                        <div class="character character-player-2"><img src="/pics/dinosaur.png" id="Dean"></div>
+                        <div class="character character-player-2"><img src="/pics/plant-pot.png" id="Priscilla"></div>
+                    </div>
+                
+                </div>
+            </div>
+
+            <h2>And weapons:</h2>
+            <div class="mark-grid-container">
+                <div id="player1-mark" class="mark2-container">                
+                    <div id="x" class="mark mark-player-1">x</div>
+                    <p>or</p>
+                    <div id="v" class="mark mark-player-1">v</div>
+                </div>
+                <div id="player2-mark" class="mark2-container">                
+                    <div id="o" class="mark mark-player-2">o</div>
+                    <p>or</p>
+                    <div id="c" class="mark mark-player-2">c</div>
+                </div>
+            </div>            
+        </div>
+
+        <div class="single-player-container">            
+            <h2>Then choose your character..</h2>
             <div class="character-container">
-                <div class="character"><img src="/pics/bear.png" id="Beau"><p>Beau the bear</p> </div>
-                <div class="character"><img src="/pics/dinosaur.png" id="Dean"><p>Dean the dinosaur</p></div>
-                <div class="character"><img src="/pics/ninja.png" id="Nelly"><p>Nelly the ninja</p></div>
-                <div class="character"><img src="/pics/plant-pot.png" id="Priscilla"><p>Priscilla the plant pot</p></div>                
+                <div class="character character-player-1 single-player-characters"><img src="/pics/bear.png" id="Beau"><p>Beau the bear</p> </div>
+                <div class="character character-player-1 single-player-characters"><img src="/pics/dinosaur.png" id="Dean"><p>Dean the dinosaur</p></div>
+                <div class="character character-player-1 single-player-characters"><img src="/pics/ninja.png" id="Nelly"><p>Nelly the ninja</p></div>
+                <div class="character character-player-1 single-player-characters"><img src="/pics/plant-pot.png" id="Priscilla"><p>Priscilla the plant pot</p></div>                
             </div>
             <h2>And weapon:</h2>
             <div class="mark-container">                
-                <div id="x" class="mark">x</div>
+                <div id="x" class="mark mark-player-1 single-player-mark">x</div>
                 <div>or</div>
-                <div id="o" class="mark">o</div>
-            </div>
-            <div class="button-container">
-                <button class="start-game-btn" >Start game</button>
-            </div>
+                <div id="o" class="mark mark-player-1 single-player-mark">o</div>
+            </div>            
+
         </div>
 
         <div class="game-container">
             <div class="player-container">
-                <div id="players-icon" class="player"><img src="/pics/plant-pot.png" id="plant">Priscilla the plant pot</div>
- 
-                <div id="player2-icon" class="player"><img src="/pics/account.png"><p>The bad guy</p></div>
+                <div id="players-icon" class="players-icon"></div>                
+                <div id="player2-icon" class="players-icon">
+                    <img src="/pics/bad-guy.png" alt=""><p>the bad guy</p>
+                </div>
             </div>
-            <div class="message-container">
-                
-                    <p class="message"></p>
-                
-                
-                <!--players turn message and winner message -->
-            </div>
-
-
-
+            <div class="message-container">                
+                <p class="message"></p>              
+                <!--players turn and winner message -->
+            </div>            
             <div class="gameboard">
                 <div id="a1" class="game-cell b r "></div>
                 <div id="a2" class="game-cell b r"></div>
@@ -90,8 +125,12 @@
                 <button id="reset" class="game-button">reset</button>
             </div>
         </div>
-    </div>
 
+        <div class="button-container">
+            <button class="start-game-btn" >Start game</button>
+        </div>
+
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

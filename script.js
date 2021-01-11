@@ -1,43 +1,46 @@
-let gameBoardContainer = document.querySelector('.gameboard')
-let gameCell = document.querySelectorAll('.game-cell');
+let playerCountBtns = document.querySelectorAll('.player-count-btn');
 
-let onePlayerBtn = document.querySelector('.one-player-btn');
-let twoPlayersBtn = document.querySelector('.two-players-btn');
+//Players character and mark containers when two players
+let player1CharContainer = document.querySelector('#player1');
+let player1MarkContainer = document.querySelector('#player1-mark');
 
-let newRoundBtn = document.querySelector('#new-round');
-let resetToStartBtn = document.querySelector('#reset');
+let player2CharContainer = document.querySelector('#player2');
+let player2MarkContainer = document.querySelector('#player2-mark');
 
-let startGameBtn = document.querySelector('.start-game-btn');
+//Players characters and mark buttons when single player plays
+let charactersForSinglePlayer = document.querySelectorAll('.single-player-characters');
+let markBtnsForSinglePlayer = document.querySelectorAll('.single-player-mark');
 
 let messageContainer = document.querySelector('.message-container');
 let message = document.querySelector('.message');
 
-let characters = document.querySelectorAll('.character');
-let markerBtns = document.querySelectorAll('.mark');
+let gameBoardContainer = document.querySelector('.gameboard');
+let gameboardCell = document.querySelectorAll('.game-cell');
+
+let startGameBtn = document.querySelector('.start-game-btn');
+let newRoundBtn = document.querySelector('#new-round');
+let resetToStartBtn = document.querySelector('#reset');
+
+let playerOne;
+let playerTwo;
+
+let playerOneName;
+let playerOneMark;
+
+let playerTwoName;
+let playerTwoMark;
+
+let playerOneTurn = true;
+let roundWon = false;
+let gameActive = false;
 
 let twoPlayersPlay = false;
 
-let characterSelected = false;
-let markerSelected = false;
+let playerTwoCharacterSelected = false;
+let playerTwoMarkSelected = false;
 
-let playersTurn = true;
-let roundWon = false;
-
-let gameActive = true;
-
-let playersName = '';
-let playersMark = '';
-let computersMark = '';
-
-class Player {
-    constructor(name, marker) {
-        this.name = name;
-        this.marker = marker;
-    }
-}
-
-let player;
-let computer;
+let playerOneCharacterSelected = false;
+let playerOneMarkSelected = false;
 
 let gameBoardObject = {
     board: [
@@ -58,24 +61,147 @@ let winningConditions = [
     ['a3', 'b2', 'c1'],
 ];
 
-function makePlayerObjects() {
-    if (playersMark == 'x') {
-        computersMark = 'o';
-    } else {
-        computersMark = 'x';
+
+class Player {
+    constructor(name, marker) {
+        this.name = name;
+        this.marker = marker;
     }
-
-    player = new Player(playersName, playersMark);
-    computer = new Player('the bad guy', computersMark);
-
 }
 
-function selectCharacter(e) {
-    let playersIcon = document.querySelector('#players-icon');
+
+function eventListeners() {
+    //selects how many players there are, single or two
+    playerCountBtns.forEach(function (button) {
+        button.addEventListener('click', function (e) {
+            //This changes the view from starting screen to character selectiong, depending how many players there are
+            changeStartingScreenView(e);            
+            if (twoPlayersPlay) {
+                twoPlayersPlayEventListeners();
+            } else {
+                onePlayerPlayEventListeners()
+            }
+        })
+    })
+
+    //Open gameboard to view and if there is single player make player objects 
+    startGameBtn.addEventListener('click', function () {
+        openGameBoardInView();
+        makePlayerObjects('playerOne');
+        startingMessage()
+    })
+
+    //Reset game to the starting screen
+    resetToStartBtn.addEventListener('click', function () {
+        window.location.reload();
+    })
+
+    newRoundBtn.addEventListener('click', function () {
+        newRound();
+    })
+
+    //Keeps track of which players turn it is
+    gameBoardContainer.addEventListener('click', function (e) {
+        if (gameActive) {
+            currentPlayersTurn(e);
+        }
+    })
+
+    //When selecting characters and markers, make selected element larger and everything else smaller
+    toggleElementSize('character-player-1', '#ffafcc');
+    toggleElementSize('mark-player-1', '#e4c1f9');
+
+    toggleElementSize('character-player-2', '#ffafcc');
+    toggleElementSize('mark-player-2', '#e4c1f9');
+}
+
+function twoPlayersPlayEventListeners() {
+    //selects playerOnes character and makes playerOne object
+    player1CharContainer.addEventListener('click', function (e) {
+        selectCharacter(e, 'playerOne');
+        if (playerOneMarkSelected) {
+            makePlayerObjects('playerOne');
+        }
+    })
+
+    //selects playerOne mark 
+    player1MarkContainer.addEventListener('click', function (e) {
+        selectMarker(e, 'playerOne');
+        if (playerOneCharacterSelected) {
+            makePlayerObjects('playerOne');
+        }
+    })
+
+    //selects playerTwo character and makes playerTwo object
+    player2CharContainer.addEventListener('click', function (e) {
+        selectCharacter(e, 'playerTwo');
+        if (playerTwoMarkSelected) {
+            makePlayerObjects('playerTwo');
+        }
+    })
+
+    //Selects playerTwo mark
+    player2MarkContainer.addEventListener('click', function (e) {
+        selectMarker(e, 'playerTwo');
+        if (playerTwoCharacterSelected) {
+            makePlayerObjects('playerTwo');
+        }
+    })
+}
+
+function onePlayerPlayEventListeners() {
+    charactersForSinglePlayer.forEach(function (character) {
+        character.addEventListener('click', function (e) {
+            selectCharacter(e, 'playerOne');
+        })
+    })
+
+    markBtnsForSinglePlayer.forEach(function (mark) {
+        mark.addEventListener('click', function (e) {
+            selectMarker(e, 'playerOne');
+        })
+    })
+}
+
+
+function makePlayerObjects(playerNumber) {
+    //if there is single player
+    if (playerNumber == 'playerOne' && !twoPlayersPlay) {
+        makeObjForSinglePlayer();
+    }
+    //Two players play
+    if (twoPlayersPlay) {
+        makeObjForTwoPlayers(playerNumber)
+    }
+}
+
+function makeObjForSinglePlayer() {
+    playerTwoName = 'the bad guy';
+
+    if (playerOneMark == 'x') {
+        playerTwoMark = 'o';
+    } else {
+        playerTwoMark = 'x'
+    }
+
+    playerOne = new Player(playerOneName, playerOneMark);
+    playerTwo = new Player(playerTwoName, playerTwoMark);
+}
+
+function makeObjForTwoPlayers(playerNumber) {
+    if (playerNumber == 'playerOne') {
+        playerOne = new Player(playerOneName, playerOneMark);
+    } else if (playerNumber == 'playerTwo') {
+        playerTwo = new Player(playerTwoName, playerTwoMark);
+    }
+}
+
+
+function selectCharacter(e, playerNumber) {
     let characterId = e.target.id;
     let character = '';
 
-
+    //checks what user clicked
     switch (characterId) {
         case 'Beau':
             character = 'bear';
@@ -89,116 +215,127 @@ function selectCharacter(e) {
         case 'Priscilla':
             character = 'plant-pot';
             break;
+        case 'Sabrina':
+            character = 'sparkly';
+            break;
+        case 'Bean':
+            character = 'bad-guy'
+            break;
     }
 
+    if (playerNumber == 'playerOne') {
+        playerOneCharacterSelected = true;
+        playerOneName = characterId;
+    } else if (playerNumber == 'playerTwo') {
+        playerTwoCharacterSelected = true;
+        playerTwoName = characterId;
+    }
 
-    playersIcon.innerHTML = '<img src="/pics/' + character + '.png" id="' + characterId + '"><p>' + characterId + ' the ' + character + '</p>';
-
-    characterSelected = true;
-    playersName = characterId;
-
+    displayPlayersIcon(playerNumber, character, characterId);
+    changeStartButtonColor();
 }
 
-function selectMarker(e) {
+function selectMarker(e, playerNumber) {
     let markerId = e.target.id;
-    markerSelected = true;
-    playersMark = markerId;
-}
 
-function toggleElementSizeWhenClicked(className, color) {
-    //Get all the matched Elements
-    let elements = document.querySelectorAll("." + className);
-    //Use an variable to rememeber previous clicked element
-    let prevIndex = -1; // 
-    // Loop over the list
-    elements.forEach(function (item, index) {
-        (function (i) { //  A closure is created
-            item.addEventListener('click', function () {
-                // if any previous element was clicked then transform of that element is none
-                if (prevIndex !== -1) {
-                    elements[prevIndex].style.transform = "none";
-                    elements[prevIndex].style.backgroundColor = color;
-                }
-                // change transform of current element
-                item.style.transform = "scale(1.3)";
-                item.style.backgroundColor = "#a099f8";
-                // update prevIndex
-                prevIndex = i;
-            })
-        }(index))
-
-    })
-}
-
-
-function newRound() {
-    playersTurn = true;
-    roundWon = false;
-    gameActive = true;
-
-    newRoundBtn.style.display = 'none';
-    resetToStartBtn.style.display = 'none';
-
-    winningConditions = [
-        ['a1', 'a2', 'a3'],
-        ['b1', 'b2', 'b3'],
-        ['c1', 'c2', 'c3'],
-        ['a1', 'b1', 'c1'],
-        ['a2', 'b2', 'c2'],
-        ['a3', 'b3', 'c3'],
-        ['a1', 'b2', 'c3'],
-        ['a3', 'b2', 'c1'],
-    ];
-
-    gameBoardObject.board = [
-        ['a1', 'a2', 'a3'],
-        ['b1', 'b2', 'b3'],
-        ['c1', 'c2', 'c3']
-    ];
-
-    gameCell.forEach(function (cell) {
-        cell.innerText = ''
-    })
-
-    message.innerText = player.name + ' starts the game';
-
-
-    //Logs in the console arrays
-    //Remove before publish
-    for (let i = 0; i < gameBoardObject.board.length; i++) {
-        console.log(gameBoardObject.board[i]);
-    }
-    for (let i = 0; i < winningConditions.length; i++) {
-        console.log(winningConditions[i]);
-    }
-
-}
-
-function startingMessage() {
-    message.innerHTML = 'Welcome <br>' + player.name + '!';
-    setTimeout(function () {
-        message.innerHTML = "<p style='font-size: 23px'>" + player.name + ", you start the game. <br> Try to beat " + computer.name + "</p>";
-    }, 1700);
-}
-
-function currentPlayerTurnMessage(playerName) {
-    message.innerText = "It's " + playerName + "s turn";
-}
-
-function winningMessage(playersName) {
-
-    if (playersName) {
-        message.innerHTML = 'Congratulations! <br> ' + playersName + " wins!";
+    if (playerNumber == 'playerOne') {
+        playerOneMark = markerId;
+        playerOneMarkSelected = true;
     } else {
-        message.innerHTML = '<p id="smaller-txt">' + player.name + ' loses. </p>' + computer.name + ' wins!';
+        playerTwoMark = markerId
+        playerTwoMarkSelected = true;
+    }
+    changeStartButtonColor();
+}
+
+function displayPlayersIcon(playerNumber, character, characterId) {
+    let playersIcon;
+
+    if (playerNumber == 'playerOne') {
+        playersIcon = document.querySelector('#players-icon');
+    } else {
+        playersIcon = document.querySelector('#player2-icon');
+    }
+
+    if (twoPlayersPlay) {
+        playersIcon.style.width = '110px';
+        playersIcon.style.height = '110px';
+
+        if (playerNumber == 'playerOne') {
+            playersIcon.innerHTML = '<span>Player 1</span><img src="/pics/' + character + '.png" id="' + characterId + '"><p>' + characterId + ' the ' + character + '</p>';
+        } else {
+            playersIcon.innerHTML = '<span>Player 2</span><img src="/pics/' + character + '.png" id="' + characterId + '"><p>' + characterId + ' the ' + character + '</p>';
+        }
+        //there is only single player
+    } else {
+        playersIcon.innerHTML = '<img src="/pics/' + character + '.png" id="' + characterId + '"><p>' + characterId + ' the ' + character + '</p>';
     }
 }
 
-function gameEndedInATieMessage() {
-    message.innerHTML = "<p id='smaller-txt'>It's a tie.</p> Game over!"
+function currentPlayersTurn(e) {
+
+    if (twoPlayersPlay && playerOneTurn) {
+        playersTurn(e, 'playerOne');
+        if (gameActive) {
+            currentPlayerTurnMessage(playerTwo.name);
+        }
+    } else if (twoPlayersPlay && !playerOneTurn) {
+        playersTurn(e, 'playerTwo');
+        if (gameActive) {
+            currentPlayerTurnMessage(playerOne.name);
+        }
+    }
+
+    if (!twoPlayersPlay && playerOneTurn) {
+        currentPlayerIsComputer(e);
+    }
 }
 
 
+function playersTurn(e, playerNumber) {
+    let element = e.target;
+    let playerTurn;
+
+    if (playerNumber == 'playerOne') {
+        playerTurn = playerOne;
+    } else {
+        playerTurn = playerTwo;
+    }
+
+    //If the element is empty, display on that element currentPlayers marker and change players turn
+    if (element.innerText == '') {
+        element.innerText = playerTurn.marker;
+        handlePlayersChoice(element, playerNumber);
+        let hasWon = checkPlayStatus(playerTurn.name);
+        if (!hasWon) {
+            switchPlayersTurn();
+            return true
+        }
+    } else if (element.innerText != '') {
+        //makes sure that nothing further happens until, players turn is over
+        return false
+    }
+}
+
+function handlePlayersChoice(e, playerNumber) {
+    let elementId = e.id
+    let playerTurn;
+
+    if (playerNumber == 'playerOne') {
+        playerTurn = playerOne;
+    } else {
+        playerTurn = playerTwo;
+    }
+
+    let gameboard = gameBoardObject.board;
+
+    //Go through arrays and compare elements id to it. 
+    //Change arrays elements, so that right player marker is in the array in the right place
+    // gameboard object and the bameboard in the screen now looks the same. 
+
+    updateGameBoardCondition(gameboard, elementId, playerTurn.marker);
+    updateGameBoardCondition(winningConditions, elementId, playerTurn.marker);
+}
 
 function computerSelects() {
     let num = Math.floor(Math.random() * 9);
@@ -235,27 +372,19 @@ function computerSelects() {
 
     let element = document.getElementById(cellId);
     handleComputersChoice(element, cellId);
-
-    for (let i = 0; i < gameBoardObject.board.length; i++) {
-        console.log(gameBoardObject.board[i]);
-    }
 }
 
 function handleComputersChoice(element, id) {
-
     if (element.innerHTML == '') {
-        console.log(id + ' element is empty');
-        element.innerHTML = computer.marker;
-        updateGameBoardCondition(gameBoardObject.board, id, computer.marker);
-        updateGameBoardCondition(winningConditions, id, computer.marker);
+        element.innerHTML = playerTwo.marker;
+        updateGameBoardCondition(gameBoardObject.board, id, playerTwo.marker);
+        updateGameBoardCondition(winningConditions, id, playerTwo.marker);
 
         let hasWon = checkPlayStatus();
 
         if (!hasWon) {
-            currentPlayerTurnMessage(player.name);
+            currentPlayerTurnMessage(playerOne.name);
             switchPlayersTurn();
-        } else {
-            return
         }
     } else {
         console.log(id + ' was not empty, trying again');
@@ -263,45 +392,27 @@ function handleComputersChoice(element, id) {
     }
 }
 
-function humansTurn(e) {
-    let element = e.target;
-
-    //If the element is empty, display on that element currentPlayers marker and change players turn
-    if (element.innerText == '') {
-        console.log('elements inner text is empty');
-        element.innerText = player.marker;
-        handlePlayersChoice(element);
-        let hasWon = checkPlayStatus(player.name);
-        if (!hasWon) {
-            switchPlayersTurn();
-            return true
-        }
-    } else if (element.innerText != '') {
-        console.log('element was not empty, trying again');
-        //makes sure that nothing further happens until, humans turn is over
-        return false
+function currentPlayerIsComputer(e) {
+    let turnIsOver = playersTurn(e, 'playerOne');
+    //checks that game is active, and humans turn is over
+    if (gameActive && turnIsOver) {
+        currentPlayerTurnMessage(playerTwo.name);
+        setTimeout(function () {
+            computerSelects();
+        }, 1500);
     }
 }
 
-function currentPlayersTurn(e) {
-    if (playersTurn) {
-        let turnIsOver = humansTurn(e);
 
-        //checks that game is active, and humans turn is over
-        if (gameActive && turnIsOver) {
-            currentPlayerTurnMessage(computer.name);
-            setTimeout(function () {
-                computerSelects();
-            }, 1500);
+function updateGameBoardCondition(arr, elementId, marker) {
+    for (let i = 0; i < arr.length; i++) {
+        let row = arr[i];
+
+        for (let j = 0; j < row.length; j++) {
+            if (elementId == row[j]) {
+                row[j] = marker;
+            }
         }
-    }
-}
-
-function switchPlayersTurn() {
-    if (playersTurn) {
-        playersTurn = false;
-    } else {
-        playersTurn = true;
     }
 }
 
@@ -335,8 +446,18 @@ function checkPlayStatus(player) {
     return false;
 }
 
+function switchPlayersTurn() {
+    if (playerOneTurn) {
+        playerOneTurn = false;
+    } else {
+        playerOneTurn = true;
+    }
+}
+
+
+
 function onlyMarkers(item) {
-    return item === 'x' || item === 'o';
+    return item === 'x' || item === 'o' || item === 'c' || item === 'v';
 }
 
 function checkIfGameIsDraw() {
@@ -359,141 +480,144 @@ function checkIfGameIsDraw() {
 
 }
 
-function handlePlayersChoice(e) {
-    let elementId = e.id
-    console.log(elementId);
-    let gameboard = gameBoardObject.board;
 
-    //Go through arrays and compare elements id to it. 
-    //Change arrays elements, so that right player marker is in the array in the right place
-    // gameboard object and the bameboard in th escreen now looks the same. 
+function newRound() {
+    playerOneTurn = true;
+    roundWon = false;
+    gameActive = true;
 
-    updateGameBoardCondition(gameboard, elementId, player.marker);
-    updateGameBoardCondition(winningConditions, elementId, player.marker);
+    newRoundBtn.style.display = 'none';
+    resetToStartBtn.style.display = 'none';
 
-    console.clear();
-    for (let i = 0; i < gameboard.length; i++) {
-        console.log(gameboard[i]);
-    }
+    winningConditions = [
+        ['a1', 'a2', 'a3'],
+        ['b1', 'b2', 'b3'],
+        ['c1', 'c2', 'c3'],
+        ['a1', 'b1', 'c1'],
+        ['a2', 'b2', 'c2'],
+        ['a3', 'b3', 'c3'],
+        ['a1', 'b2', 'c3'],
+        ['a3', 'b2', 'c1'],
+    ];
+
+    gameBoardObject.board = [
+        ['a1', 'a2', 'a3'],
+        ['b1', 'b2', 'b3'],
+        ['c1', 'c2', 'c3']
+    ];
+
+    //Empty the screen
+    gameboardCell.forEach(function (cell) {
+        cell.innerText = ''
+    })
+
+    message.innerText = playerOne.name + ' starts the game';
 }
 
 
+function startingMessage() {
+    if (twoPlayersPlay) {
+        message.innerHTML = 'Welcome <br> ' + playerOne.name + ' and ' + playerTwo.name + '!';
+    } else {
+        message.innerHTML = 'Welcome <br>' + playerOne.name + '!';
+    }
+    setTimeout(function () {
+        gameActive = true;
+        message.innerHTML = "<p style='font-size: 23px'>" + playerOne.name + ", you start the game. <br> Try to beat " + playerTwo.name + "</p>";
+    }, 1700);
+}
 
-function updateGameBoardCondition(arr, elementId, marker) {
-    for (let i = 0; i < arr.length; i++) {
-        let row = arr[i];
+function currentPlayerTurnMessage(playerName) {
+    message.innerText = "It's " + playerName + "s turn";
+}
 
-        for (let j = 0; j < row.length; j++) {
-            if (elementId == row[j]) {
-                row[j] = marker;
-            }
+function winningMessage(playerOneName) {
+    if (!twoPlayersPlay) {
+        if (playerOneName) {
+            message.innerHTML = 'Congratulations! <br> ' + playerOneName + " wins!";
+        } else {
+            message.innerHTML = '<p id="smaller-txt">' + playerOne.name + ' loses. </p>' + playerTwo.name + ' wins!';
+        }
+    } else {
+        message.innerHTML = 'Congratulations! <br> ' + playerOneName + " wins!";
+    }
+}
+
+function gameEndedInATieMessage() {
+    message.innerHTML = "<p id='smaller-txt'>It's a tie.</p> Game over!"
+}
+
+
+//When choosing characters, the clicked character gets bigger and everybody else remains smaller
+function toggleElementSize(className, color) {
+    //Get all the matched Elements
+    let elements = document.querySelectorAll("." + className);
+    //Use an variable to rememeber previous clicked element
+    let prevIndex = -1; // 
+    // Loop over the list
+    elements.forEach(function (item, index) {
+        (function (i) { //  A closure is created
+            item.addEventListener('click', function () {
+                // if any previous element was clicked then transform of that element is none
+                if (prevIndex !== -1) {
+                    elements[prevIndex].style.transform = "none";
+                    elements[prevIndex].style.backgroundColor = color;
+                }
+                // change transform of current element
+                item.style.transform = "scale(1.3)";
+                item.style.backgroundColor = "#a099f8";
+                // update prevIndex
+                prevIndex = i;
+            })
+        }(index))
+    })
+}
+
+function openGameBoardInView() {
+    if (playerOneCharacterSelected && playerOneMarkSelected) {
+        document.querySelector('.game-container').style.display = 'block';
+        document.querySelector('.single-player-container').style.display = 'none';
+        startGameBtn.style.display = 'none';
+        if (twoPlayersPlay) {
+            document.querySelector('.two-players-container').style.display = 'none';
         }
     }
 }
 
-function startGame() {
-    if (characterSelected && markerSelected) {
-        document.querySelector('.game-container').style.display = 'block';
-        document.querySelector('.char-select-container').style.display = 'none';
-    }
-
-}
-
-function changeStartButtonColor(element) {
-    if (element) {
+function changeStartButtonColor() {
+    if (playerOneCharacterSelected && playerOneMarkSelected && playerTwoCharacterSelected && playerTwoMarkSelected) {
         startGameBtn.style.backgroundColor = '#84dcc6';
         startGameBtn.style.color = 'black';
+        addStartButtonHover();
     }
 }
 
 function addStartButtonHover() {
-    if (characterSelected && markerSelected) {
-        startGameBtn.addEventListener('mouseenter', function () {
-            startGameBtn.style.backgroundColor = '#a7e9d8';
-            startGameBtn.style.transform = 'scale(1.1)';
-        })
+    startGameBtn.addEventListener('mouseenter', function () {
+        startGameBtn.style.backgroundColor = '#a7e9d8';
+        startGameBtn.style.transform = 'scale(1.1)';
+    })
 
-        startGameBtn.addEventListener('mouseleave', function () {
-            startGameBtn.style.backgroundColor = '#84dcc6';
-            startGameBtn.style.transform = 'none';
-        })
+    startGameBtn.addEventListener('mouseleave', function () {
+        startGameBtn.style.backgroundColor = '#84dcc6';
+        startGameBtn.style.transform = 'none';
+    })
+}
+
+function changeStartingScreenView(e) {
+    startGameBtn.style.display = 'block';
+    if (e.target.id != 'one') {
+        twoPlayersPlay = true;
+        console.log('two players');
+        document.querySelector('.starting-screen').style.display = 'none';
+        document.querySelector('.two-players-container').style.display = 'block';
+    } else {
+        playerTwoCharacterSelected = true;
+        playerTwoMarkSelected = true;
+        document.querySelector('.starting-screen').style.display = 'none';
+        document.querySelector('.two-players-container').style.display = 'none';
+        document.querySelector('.single-player-container').style.display = 'block';
     }
 }
 
-
-
-
-
-
-
-
-function eventListeners() {
-
-        startGameBtn.addEventListener('click', function () {
-        startGame();
-        /*if(twoPlayersBtn) {
-            //tee kummallekin pelaajalle oma objekti ja laita start message tulemaan
-            //missa lukee kummankin nimi ja kumpi aloittaa
-        }*/
-        makePlayerObjects();
-        startingMessage()
-        console.log(playersName + ' ' + playersMark);
-    })
-
-
-
-    resetToStartBtn.addEventListener('click', function () {
-        window.location.reload();
-    })
-
-    newRoundBtn.addEventListener('click', function () {
-        newRound();
-    })
-    gameBoardContainer.addEventListener('click', function (e) {
-        if (gameActive) {
-            currentPlayersTurn(e);
-        }
-    })
-
-
-
-
-
-
-
-
-    characters.forEach(function (character) {
-        character.addEventListener('click', function (e) {
-            selectCharacter(e);
-            changeStartButtonColor(markerSelected);
-            addStartButtonHover();
-        })
-    })
-
-    markerBtns.forEach(function (mark) {
-        mark.addEventListener('click', function (e) {
-            selectMarker(e);
-            changeStartButtonColor(characterSelected);
-            addStartButtonHover();
-        })
-    })
-
-    twoPlayersBtn.addEventListener('click', function () {
-        twoPlayersPlay = true;
-        document.querySelector('.starting-screen').style.display = 'none';
-        document.querySelector('.char-select-container').style.display = 'block';
-
-    })
-
-    onePlayerBtn.addEventListener('click', function () {
-        twoPlayersPlay = false;
-        document.querySelector('.starting-screen').style.display = 'none';
-        document.querySelector('.char-select-container').style.display = 'block';
-
-    })
-
-}
-
 eventListeners();
-toggleElementSizeWhenClicked('character', '#ffafcc');
-toggleElementSizeWhenClicked('mark', '#e4c1f9');
