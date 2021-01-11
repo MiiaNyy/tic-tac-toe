@@ -262,13 +262,13 @@ function displayPlayersIcon(playerNumber, character, characterId) {
         playersIcon.style.height = '110px';
 
         if (playerNumber == 'playerOne') {
-            playersIcon.innerHTML = '<span>Player 1</span><img src="/pics/' + character + '.png" id="' + characterId + '"><p>' + characterId + ' the ' + character + '</p>';
+            playersIcon.innerHTML = '<span>Player 1</span><img src="pics/' + character + '.png" id="' + characterId + '"><p>' + characterId + ' the ' + character + '</p>';
         } else {
-            playersIcon.innerHTML = '<span>Player 2</span><img src="/pics/' + character + '.png" id="' + characterId + '"><p>' + characterId + ' the ' + character + '</p>';
+            playersIcon.innerHTML = '<span>Player 2</span><img src="pics/' + character + '.png" id="' + characterId + '"><p>' + characterId + ' the ' + character + '</p>';
         }
         //there is only single player
     } else {
-        playersIcon.innerHTML = '<img src="/pics/' + character + '.png" id="' + characterId + '"><p>' + characterId + ' the ' + character + '</p>';
+        playersIcon.innerHTML = '<img src="pics/' + character + '.png" id="' + characterId + '"><p>' + characterId + ' the ' + character + '</p>';
     }
 }
 
