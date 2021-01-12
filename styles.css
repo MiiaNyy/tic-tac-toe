@@ -387,7 +387,9 @@ header h1 {
     background-color: #bcb8f8;
 }
 
-@media screen and (max-width: 950px) {
+
+
+@media screen and (max-width: 950px) and (min-width: 660px) {
     .container {
         max-width: 600px;
     }
@@ -408,7 +410,9 @@ header h1 {
     }
 }
 
-@media screen and (max-width: 660px) {
+
+
+@media screen and (max-width: 659px) and (min-width:450px) {
     .container {
         max-width: 80%;
     }
@@ -475,3 +479,101 @@ header h1 {
         top: 330px;
     }
 }
+
+@media screen and (max-width: 450px) {
+    .container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        overflow: auto;    
+    }
+
+    .player-count-container {
+        grid-template-columns: 1fr 25px 2fr;
+        grid-template-rows: 50px 100px;
+        grid-column-gap: 3px;
+        grid-row-gap: 3px;
+        width: 90%;
+    }
+
+    .player-count-container h2 {
+        font-size: 1em;
+    }
+
+    .icon, .icon img {
+        width: 17vw;
+        height: 9vh;
+    }
+}
+
+    .character-container {
+        grid-template-columns: repeat(2, 100px);
+        grid-template-rows: repeat(2, 100px);
+        grid-column-gap: 20px;
+        grid-row-gap: 20px;
+        height: 250px;
+        margin-bottom: 0px;
+    }
+
+    .character-container p {
+        display: none;
+    }
+
+    .players-grid-container {
+        grid-template-columns: 220px;
+    }
+
+    .mark-container {
+        width: 80%;
+        margin: 0px auto;
+    }
+
+    .mark-grid-container {
+
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 25vw;
+        grid-column-gap: 5px;
+        width: 100px;
+    }
+
+    .mark2-container {
+        
+        grid-template-columns: 1fr 10px 1fr;
+        grid-template-rows: 1fr;
+        grid-row-gap: 10px;
+        grid-column-gap: 5px;
+    }
+
+    .mark-dual {
+        width: 22vw;
+        height: 9vh;
+        font-size: 0.6em;
+    }
+    .player-container {
+        max-width: 50%;
+        top: 300px;
+    }
+
+    .players-icon {
+        width: 90px;
+        height: 90px;
+    }
+
+    .gameboard {
+        margin-top: 220px;
+        grid-template-columns: repeat(3, 110px);
+        grid-template-rows: repeat(3, 110px);
+    }
+
+    .game-cell {
+        font-size: 90px;
+    }
+
+    #single-player {
+        top: 330px;
+    }
+}
+
+
