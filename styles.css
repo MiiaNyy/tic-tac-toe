@@ -16,7 +16,7 @@ header h1 {
 
 /*This holds everything other than background image*/
 .container {
-    max-width: 900px;
+    max-width: 850px;
     margin: 20px auto;
     box-shadow: 5px 5px 5px 0px rgba(134, 133, 133, 0.623);
     background-color: #ffd6e0ed;
@@ -34,7 +34,7 @@ header h1 {
 
 /*User can select single player or two players*/
 .player-count-container {
-    display: grid;    
+    display: grid;
     grid-template-columns: 100px 30px 210px;
     grid-template-rows: 50px 100px;
     grid-column-gap: 10px;
@@ -43,19 +43,39 @@ header h1 {
     margin: auto;
     justify-content: space-around;
 }
-        
-.div1 { grid-area: 1 / 1 / 2 / 2; }
-.div2 { grid-area: 1 / 2 / 2 / 3; }
-.div3 { grid-area: 1 / 3 / 2 / 4; }
-.div4 { grid-area: 2 / 1 / 3 / 2; }
-.div5 { grid-area: 2 / 2 / 3 / 3; }
-.div6 { grid-area: 2 / 3 / 3 / 4; }
-    
 
-.div6, .div4 {
+.div1 {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.div2 {
+    grid-area: 1 / 2 / 2 / 3;
+}
+
+.div3 {
+    grid-area: 1 / 3 / 2 / 4;
+}
+
+.div4 {
+    grid-area: 2 / 1 / 3 / 2;
+}
+
+.div5 {
+    grid-area: 2 / 2 / 3 / 3;
+}
+
+.div6 {
+    grid-area: 2 / 3 / 3 / 4;
+}
+
+
+.div6,
+.div4 {
     transition: all .3s cubic-bezier(0.42, 0, 0.13, 1.55);
 }
-.div6:hover, .div4:hover  {
+
+.div6:hover,
+.div4:hover {
     transform: scale(1.1);
 }
 
@@ -68,7 +88,7 @@ header h1 {
     display: inline-block;
     width: 80px;
     height: 80px;
-    padding: 10px;    
+    padding: 10px;
     background-color: #b6cdff;
     box-shadow: 5px 5px 5px 0px rgba(134, 133, 133, 0.623);
 }
@@ -116,7 +136,8 @@ header h1 {
     margin-bottom: 50px;
 }
 
-#player1, #player2{
+#player1,
+#player2 {
     display: grid;
     grid-template-columns: repeat(2, 100px);
     grid-template-rows: repeat(2, 100px);
@@ -131,7 +152,7 @@ header h1 {
     grid-row-gap: 10px;
     grid-column-gap: 10px;
     align-items: center;
-    font-size: 80px;   
+    font-size: 80px;
 }
 
 /*The 'or' between markers*/
@@ -170,15 +191,16 @@ header h1 {
     box-shadow: 5px 5px 5px 0px rgba(134, 133, 133, 0.623);
 }
 
-.character img:hover, .mark:hover {
+.character img:hover,
+.mark:hover {
     background-color: #a099f8;
 }
 
 .character img {
     width: 75px;
-    height: 75px;    
-    padding: 13px;  
-    transition: all .3s ease-in-out;  
+    height: 75px;
+    padding: 13px;
+    transition: all .3s ease-in-out;
 }
 
 .mark-container {
@@ -205,7 +227,7 @@ header h1 {
     margin: 0 auto;
     font-family: 'Staatliches', cursive;
     background-color: #a5a5a52c;
-    color: rgb(141, 141, 141);   
+    color: rgb(141, 141, 141);
     width: 120px;
     height: 50px;
     font-size: 20px;
@@ -224,7 +246,7 @@ header h1 {
     display: none;
 }
 
-.player-container {    
+.player-container {
     max-width: 700px;
     position: absolute;
     left: 0;
@@ -241,9 +263,9 @@ header h1 {
     text-align: center;
     transition: all .3s cubic-bezier(0.42, 0, 0.13, 1.55);
     background-color: #b6cdff;
-    box-shadow: 5px 5px 5px 0px rgba(134, 133, 133, 0.623);    
+    box-shadow: 5px 5px 5px 0px rgba(134, 133, 133, 0.623);
     z-index: 1;
-} 
+}
 
 .players-icon p {
     margin-top: 5px;
@@ -251,7 +273,7 @@ header h1 {
 
 .players-icon img {
     width: 75px;
-    height: 75px;    
+    height: 75px;
     padding: 10px;
 }
 
@@ -276,7 +298,7 @@ header h1 {
 
 .message-container p {
     padding: 10px;
-    margin:10px auto;
+    margin: 10px auto;
 }
 
 /*In the message container, when game over message and winner message is shown*/
@@ -331,7 +353,7 @@ header h1 {
 
 
 .button-container {
-    text-align: center;    
+    text-align: center;
 }
 
 .game-button {
@@ -349,10 +371,12 @@ header h1 {
     margin-right: 50px;
     background-color: #84dcc6;
 }
+
 #reset {
     margin-left: 30px;
     background-color: #a099f8;
 }
+
 #new-round:hover {
     transform: scale(1.1);
     background-color: #a7e9d8;
@@ -363,3 +387,91 @@ header h1 {
     background-color: #bcb8f8;
 }
 
+@media screen and (max-width: 950px) {
+    .container {
+        max-width: 600px;
+    }
+
+    .player-container {
+        max-width: 550px;
+        top: 300px;
+    }
+
+    .players-icon {
+        width: 90px;
+        height: 90px;
+    }
+
+    .gameboard {
+        margin-top: 140px;
+        margin-bottom: 50px;
+    }
+}
+
+@media screen and (max-width: 660px) {
+    .container {
+        max-width: 80%;
+    }
+
+    .character-container {
+        grid-template-columns: repeat(2, 100px);
+        grid-template-rows: repeat(2, 100px);
+        grid-column-gap: 20px;
+        grid-row-gap: 20px;
+        height: 250px;
+        margin-bottom: 0px;
+    }
+
+    .character-container p {
+        display: none;
+    }
+
+    .players-grid-container {
+        grid-template-columns: 220px;
+    }
+
+    .mark-grid-container {
+        justify-items: center;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 110px;
+        grid-column-gap: 5px;
+    }
+
+    .mark2-container {
+        
+        grid-template-columns: 1fr 7px 1fr;
+        grid-template-rows: repeat(1, 100px);
+        grid-row-gap: 10px;
+        grid-column-gap: 10px;
+        justify-content: center;
+    }
+
+    .mark-dual {
+        width: 70px;
+        height: 70px;
+        font-size: 50px;
+    }
+    .player-container {
+        max-width: 50%;
+        top: 300px;
+    }
+
+    .players-icon {
+        width: 90px;
+        height: 90px;
+    }
+
+    .gameboard {
+        margin-top: 220px;
+        grid-template-columns: repeat(3, 110px);
+        grid-template-rows: repeat(3, 110px);
+    }
+
+    .game-cell {
+        font-size: 90px;
+    }
+
+    #single-player {
+        top: 330px;
+    }
+}
