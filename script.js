@@ -248,16 +248,20 @@ function selectMarker(e, playerNumber) {
     changeStartButtonColor();
 }
 
+
+
 function displayPlayersIcon(playerNumber, character, characterId) {
     let playersIcon;
-
+    let intViewportWidth = window.innerWidth;
+    
     if (playerNumber == 'playerOne') {
         playersIcon = document.querySelector('#players-icon');
     } else {
         playersIcon = document.querySelector('#player2-icon');
     }
 
-    if (twoPlayersPlay) {
+    //if viewport is smaller than 450px, show icons smaller, otherwise show them bigger
+    if (twoPlayersPlay && intViewportWidth > 450) {
         playersIcon.style.width = '110px';
         playersIcon.style.height = '110px';
 

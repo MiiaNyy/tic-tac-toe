@@ -92,14 +92,7 @@
 }
 
 @media screen and (max-width: 450px) {
-    .container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        overflow: auto;    
-    }
+
 
     .player-count-container {
         grid-template-columns: 1fr 25px 2fr;
@@ -137,28 +130,33 @@
     }
 
     .mark-container {
+        grid-template-columns: repeat(3, 80px);
+        grid-template-rows: repeat(1, 80px);
         width: 80%;
-        margin: 0px auto;
+        margin: 40px auto;
+    }
+
+    .mark {
+        width: 80px;
+        height: 80px;
+        font-size: 60px;
     }
 
     .mark-grid-container {
-
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: 25vw;
         grid-column-gap: 5px;
-        width: 100px;
+        justify-items: center;
     }
 
-    .mark2-container {
-        
+    .mark2-container {        
         grid-template-columns: 1fr 10px 1fr;
         grid-template-rows: 1fr;
-        grid-row-gap: 10px;
         grid-column-gap: 5px;
     }
 
     .mark-dual {
-        width: 22vw;
+        width: 16vw;
         height: 9vh;
         font-size: 0.6em;
     }
@@ -173,13 +171,13 @@
     }
 
     .gameboard {
-        margin-top: 220px;
-        grid-template-columns: repeat(3, 110px);
-        grid-template-rows: repeat(3, 110px);
+        margin-top: 250px;
+        grid-template-columns: repeat(3, 100px);
+        grid-template-rows: repeat(3, 100px);
     }
 
     .game-cell {
-        font-size: 90px;
+        font-size: 80px;
     }
 
     #single-player {
