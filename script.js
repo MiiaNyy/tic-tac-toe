@@ -42,24 +42,23 @@ let playerTwoMarkSelected = false;
 let playerOneCharacterSelected = false;
 let playerOneMarkSelected = false;
 
-let gameBoardObject = {
+let gameBoardObj = {
     board: [
         ['a1', 'a2', 'a3'],
         ['b1', 'b2', 'b3'],
         ['c1', 'c2', 'c3']
     ],
-}
-
-let winningConditions = [
-    ['a1', 'a2', 'a3'],
-    ['b1', 'b2', 'b3'],
-    ['c1', 'c2', 'c3'],
-    ['a1', 'b1', 'c1'],
-    ['a2', 'b2', 'c2'],
-    ['a3', 'b3', 'c3'],
-    ['a1', 'b2', 'c3'],
-    ['a3', 'b2', 'c1'],
-];
+    winningConditions: [
+        ['a1', 'a2', 'a3'],
+        ['b1', 'b2', 'b3'],
+        ['c1', 'c2', 'c3'],
+        ['a1', 'b1', 'c1'],
+        ['a2', 'b2', 'c2'],
+        ['a3', 'b3', 'c3'],
+        ['a1', 'b2', 'c3'],
+        ['a3', 'b2', 'c1'],
+    ]
+};
 
 
 class Player {
@@ -331,14 +330,14 @@ function handlePlayersChoice(e, playerNumber) {
         playerTurn = playerTwo;
     }
 
-    let gameboard = gameBoardObject.board;
+    let gameboard = gameBoardObj.board;
 
     //Go through arrays and compare elements id to it. 
     //Change arrays elements, so that right player marker is in the array in the right place
     // gameboard object and the bameboard in the screen now looks the same. 
 
     updateGameBoardCondition(gameboard, elementId, playerTurn.marker);
-    updateGameBoardCondition(winningConditions, elementId, playerTurn.marker);
+    updateGameBoardCondition(gameBoardObj.winningConditions, elementId, playerTurn.marker);
 }
 
 function computerSelects() {
@@ -381,8 +380,8 @@ function computerSelects() {
 function handleComputersChoice(element, id) {
     if (element.innerHTML == '') {
         element.innerHTML = playerTwo.marker;
-        updateGameBoardCondition(gameBoardObject.board, id, playerTwo.marker);
-        updateGameBoardCondition(winningConditions, id, playerTwo.marker);
+        updateGameBoardCondition(gameBoardObj.board, id, playerTwo.marker);
+        updateGameBoardCondition(gameBoardObj.winningConditions, id, playerTwo.marker);
 
         let hasWon = checkPlayStatus();
 
@@ -422,8 +421,9 @@ function updateGameBoardCondition(arr, elementId, marker) {
 
 function checkPlayStatus(player) {
 
-    for (let i = 0; i < winningConditions.length; i++) {
-        let row = winningConditions[i];
+    let winningCondition = gameBoardObj.winningConditions;
+    for (let i = 0; i < winningCondition.length; i++) {
+        let row = winningCondition[i];
         let a = row[0];
         let b = row[1];
         let c = row[2];
@@ -465,7 +465,7 @@ function onlyMarkers(item) {
 }
 
 function checkIfGameIsDraw() {
-    let gameboard = gameBoardObject.board;
+    let gameboard = gameBoardObj.board;
     let gameIsATie = false;
 
     let row1 = gameboard[0].every(onlyMarkers);
@@ -493,22 +493,23 @@ function newRound() {
     newRoundBtn.style.display = 'none';
     resetToStartBtn.style.display = 'none';
 
-    winningConditions = [
-        ['a1', 'a2', 'a3'],
-        ['b1', 'b2', 'b3'],
-        ['c1', 'c2', 'c3'],
-        ['a1', 'b1', 'c1'],
-        ['a2', 'b2', 'c2'],
-        ['a3', 'b3', 'c3'],
-        ['a1', 'b2', 'c3'],
-        ['a3', 'b2', 'c1'],
-    ];
-
-    gameBoardObject.board = [
-        ['a1', 'a2', 'a3'],
-        ['b1', 'b2', 'b3'],
-        ['c1', 'c2', 'c3']
-    ];
+    gameBoardObj = {
+        board: [
+            ['a1', 'a2', 'a3'],
+            ['b1', 'b2', 'b3'],
+            ['c1', 'c2', 'c3']
+        ],
+        winningConditions: [
+            ['a1', 'a2', 'a3'],
+            ['b1', 'b2', 'b3'],
+            ['c1', 'c2', 'c3'],
+            ['a1', 'b1', 'c1'],
+            ['a2', 'b2', 'c2'],
+            ['a3', 'b3', 'c3'],
+            ['a1', 'b2', 'c3'],
+            ['a3', 'b2', 'c1'],
+        ]
+    };
 
     //Empty the screen
     gameboardCell.forEach(function (cell) {
