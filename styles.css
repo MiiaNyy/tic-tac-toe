@@ -290,6 +290,7 @@ header h1 {
     margin: auto;
     text-align: center;
     width: 250px;
+    height: 150px;
     font-size: 2em;
     background-color: #fce9ff;
     transition: all .4s ease-in-out;
@@ -298,7 +299,8 @@ header h1 {
 
 .message-container p {
     padding: 10px;
-    margin: 10px auto;
+    padding-top: 35px;
+    
 }
 
 /*In the message container, when game over message and winner message is shown*/

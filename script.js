@@ -74,7 +74,7 @@ function eventListeners() {
     playerCountBtns.forEach(function (button) {
         button.addEventListener('click', function (e) {
             //This changes the view from starting screen to character selectiong, depending how many players there are
-            changeStartingScreenView(e);            
+            changeStartingScreenView(e);
             if (twoPlayersPlay) {
                 twoPlayersPlayEventListeners();
             } else {
@@ -221,7 +221,12 @@ function selectCharacter(e, playerNumber) {
             character = 'bad-guy'
             break;
     }
+    charactersSelected(playerNumber, characterId);
+    displayPlayersIcon(playerNumber, character, characterId);
+    changeStartButtonColor();
+}
 
+function charactersSelected(playerNumber, characterId) {
     if (playerNumber == 'playerOne') {
         playerOneCharacterSelected = true;
         playerOneName = characterId;
@@ -229,9 +234,6 @@ function selectCharacter(e, playerNumber) {
         playerTwoCharacterSelected = true;
         playerTwoName = characterId;
     }
-
-    displayPlayersIcon(playerNumber, character, characterId);
-    changeStartButtonColor();
 }
 
 function selectMarker(e, playerNumber) {
@@ -247,28 +249,29 @@ function selectMarker(e, playerNumber) {
     changeStartButtonColor();
 }
 
-
+function selectPlayersIcon(playerNumber) {
+    if (playerNumber == 'playerOne') {
+        return document.querySelector('#players-icon');
+    } else {
+        return document.querySelector('#player2-icon');
+    }
+}
 
 function displayPlayersIcon(playerNumber, character, characterId) {
-    let playersIcon;
+    let playersIcon = selectPlayersIcon(playerNumber);
     let intViewportWidth = window.innerWidth;
-    
-    if (playerNumber == 'playerOne') {
-        playersIcon = document.querySelector('#players-icon');
-    } else {
-        playersIcon = document.querySelector('#player2-icon');
-    }
 
     //if viewport is smaller than 450px, show icons smaller, otherwise show them bigger
     if (twoPlayersPlay && intViewportWidth > 450) {
         playersIcon.style.width = '110px';
         playersIcon.style.height = '110px';
 
-        if (playerNumber == 'playerOne') {
-            playersIcon.innerHTML = '<span>Player 1</span><img src="pics/' + character + '.png" id="' + characterId + '"><p>' + characterId + ' the ' + character + '</p>';
+        if(playerNumber == 'playerOne') {
+            playersIcon.innerHTML = '<span>Player 1</span>';
         } else {
-            playersIcon.innerHTML = '<span>Player 2</span><img src="pics/' + character + '.png" id="' + characterId + '"><p>' + characterId + ' the ' + character + '</p>';
+            playersIcon.innerHTML = '<span>Player 2</span>';
         }
+        playersIcon.innerHTML += '<img src="pics/' + character + '.png" id="' + characterId + '"><p>' + characterId + ' the ' + character + '</p>';
         //there is only single player
     } else {
         playersIcon.innerHTML = '<img src="pics/' + character + '.png" id="' + characterId + '"><p>' + characterId + ' the ' + character + '</p>';
@@ -276,7 +279,6 @@ function displayPlayersIcon(playerNumber, character, characterId) {
 }
 
 function currentPlayersTurn(e) {
-
     if (twoPlayersPlay && playerOneTurn) {
         playersTurn(e, 'playerOne');
         if (gameActive) {
@@ -288,7 +290,6 @@ function currentPlayersTurn(e) {
             currentPlayerTurnMessage(playerOne.name);
         }
     }
-
     if (!twoPlayersPlay && playerOneTurn) {
         currentPlayerIsComputer(e);
     }
@@ -297,13 +298,7 @@ function currentPlayersTurn(e) {
 
 function playersTurn(e, playerNumber) {
     let element = e.target;
-    let playerTurn;
-
-    if (playerNumber == 'playerOne') {
-        playerTurn = playerOne;
-    } else {
-        playerTurn = playerTwo;
-    }
+    let playerTurn = determineWhosTurn(playerNumber);
 
     //If the element is empty, display on that element currentPlayers marker and change players turn
     if (element.innerText == '') {
@@ -320,16 +315,17 @@ function playersTurn(e, playerNumber) {
     }
 }
 
+function determineWhosTurn(playerNumber) {
+    if (playerNumber == 'playerOne') {
+        return playerOne;
+    } else {
+        return playerTwo;
+    }
+}
+
 function handlePlayersChoice(e, playerNumber) {
     let elementId = e.id
-    let playerTurn;
-
-    if (playerNumber == 'playerOne') {
-        playerTurn = playerOne;
-    } else {
-        playerTurn = playerTwo;
-    }
-
+    let playerTurn = determineWhosTurn(playerNumber);
     let gameboard = gameBoardObj.board;
 
     //Go through arrays and compare elements id to it. 
@@ -372,7 +368,6 @@ function computerSelects() {
             cellId = 'c3';
             break;
     }
-
     let element = document.getElementById(cellId);
     handleComputersChoice(element, cellId);
 }
@@ -384,7 +379,6 @@ function handleComputersChoice(element, id) {
         updateGameBoardCondition(gameBoardObj.winningConditions, id, playerTwo.marker);
 
         let hasWon = checkPlayStatus();
-
         if (!hasWon) {
             currentPlayerTurnMessage(playerOne.name);
             switchPlayersTurn();
@@ -420,8 +414,8 @@ function updateGameBoardCondition(arr, elementId, marker) {
 }
 
 function checkPlayStatus(player) {
-
     let winningCondition = gameBoardObj.winningConditions;
+
     for (let i = 0; i < winningCondition.length; i++) {
         let row = winningCondition[i];
         let a = row[0];
@@ -429,16 +423,24 @@ function checkPlayStatus(player) {
         let c = row[2];
 
         if (a == b && b == c) {
-            roundWon = true;
-            gameActive = false;
-            winningMessage(player);
-            newRoundBtn.style.display = 'inline-block';
-            resetToStartBtn.style.display = 'inline-block';
+            handlePlayerWin(player);
             return true;
         }
     }
+    checkIfGameIsDrawn();
+    return false;
+}
 
-    let gameIsADraw = checkIfGameIsDraw();
+function handlePlayerWin(player) {
+    roundWon = true;
+    gameActive = false;
+    winningMessage(player);
+    newRoundBtn.style.display = 'inline-block';
+    resetToStartBtn.style.display = 'inline-block';
+}
+
+function checkIfGameIsDrawn() {
+    let gameIsADraw = isGameDraw();
 
     if (gameIsADraw) {
         newRoundBtn.style.display = 'inline-block';
@@ -447,7 +449,6 @@ function checkPlayStatus(player) {
         roundWon = true;
         gameActive = false;
     }
-    return false;
 }
 
 function switchPlayersTurn() {
@@ -464,7 +465,7 @@ function onlyMarkers(item) {
     return item === 'x' || item === 'o' || item === 'c' || item === 'v';
 }
 
-function checkIfGameIsDraw() {
+function isGameDraw() {
     let gameboard = gameBoardObj.board;
     let gameIsATie = false;
 
@@ -475,13 +476,7 @@ function checkIfGameIsDraw() {
     if (row1 && row2 && row3 && !roundWon) {
         gameIsATie = true;
     }
-
-    console.log(gameIsATie);
-    for (let i = 0; i < gameboard.length; i++) {
-        console.log(gameboard[i]);
-    }
     return gameIsATie;
-
 }
 
 
@@ -510,12 +505,10 @@ function newRound() {
             ['a3', 'b2', 'c1'],
         ]
     };
-
-    //Empty the screen
+    //Empty the gameboard
     gameboardCell.forEach(function (cell) {
         cell.innerText = ''
     })
-
     message.innerText = playerOne.name + ' starts the game';
 }
 
@@ -528,12 +521,12 @@ function startingMessage() {
     }
     setTimeout(function () {
         gameActive = true;
-        message.innerHTML = "<p style='font-size: 23px'>" + playerOne.name + ", you start the game. <br> Try to beat " + playerTwo.name + "</p>";
+        message.innerHTML = "<p style='font-size: 23px; margin-top: 5px; padding-top: 0px'>" + playerOne.name + ", you start the game. <br> Try to beat " + playerTwo.name + "</p>";
     }, 1700);
 }
 
 function currentPlayerTurnMessage(playerName) {
-    message.innerText = "It's " + playerName + "s turn";
+    message.innerHTML = 'It\'s ' + playerName + 's turn';
 }
 
 function winningMessage(playerOneName) {
