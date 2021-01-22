@@ -257,11 +257,12 @@ function selectPlayersIcon(playerNumber) {
     }
 }
 
+//if viewport is wider than 450px, icon containers and image can be bigger, otherwise make them smaller
 function changeIconSizeWhenSmallerScreen(icon) {
     let intViewportWidth = window.innerWidth;
     let imageSize;
 
-    if(intViewportWidth > 450) {
+    if (intViewportWidth > 450) {
         console.log(intViewportWidth);
         icon.style.width = '110px';
         icon.style.height = '110px';
@@ -277,13 +278,10 @@ function changeIconSizeWhenSmallerScreen(icon) {
 
 function displayPlayersIcon(playerNumber, character, characterId) {
     let playersIcon = selectPlayersIcon(playerNumber);
-    let imageSize = changeIconSizeWhenSmallerScreen(playersIcon);
-
-
-    //if viewport is smaller than 450px, show icons smaller, otherwise show them bigger
+    
     if (twoPlayersPlay) {
-
-        if(playerNumber == 'playerOne') {
+        let imageSize = changeIconSizeWhenSmallerScreen(playersIcon);
+        if (playerNumber == 'playerOne') {
             playersIcon.innerHTML = '<span>Player 1</span>';
         } else {
             playersIcon.innerHTML = '<span>Player 2</span>';
