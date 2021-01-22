@@ -257,21 +257,38 @@ function selectPlayersIcon(playerNumber) {
     }
 }
 
+function changeIconSizeWhenSmallerScreen(icon) {
+    let intViewportWidth = window.innerWidth;
+    let imageSize;
+
+    if(intViewportWidth > 450) {
+        console.log(intViewportWidth);
+        icon.style.width = '110px';
+        icon.style.height = '110px';
+        imageSize = 75;
+    } else {
+        console.log(intViewportWidth);
+        icon.style.width = '90px';
+        icon.style.height = '90px';
+        imageSize = 60;
+    }
+    return imageSize;
+}
+
 function displayPlayersIcon(playerNumber, character, characterId) {
     let playersIcon = selectPlayersIcon(playerNumber);
-    let intViewportWidth = window.innerWidth;
+    let imageSize = changeIconSizeWhenSmallerScreen(playersIcon);
+
 
     //if viewport is smaller than 450px, show icons smaller, otherwise show them bigger
-    if (twoPlayersPlay && intViewportWidth > 450) {
-        playersIcon.style.width = '110px';
-        playersIcon.style.height = '110px';
+    if (twoPlayersPlay) {
 
         if(playerNumber == 'playerOne') {
             playersIcon.innerHTML = '<span>Player 1</span>';
         } else {
             playersIcon.innerHTML = '<span>Player 2</span>';
         }
-        playersIcon.innerHTML += '<img src="pics/' + character + '.png" id="' + characterId + '"><p>' + characterId + ' the ' + character + '</p>';
+        playersIcon.innerHTML += '<img style="height:' + imageSize + 'px; width:' + imageSize + 'px; " src="pics/' + character + '.png" id="' + characterId + '"><p>' + characterId + ' the ' + character + '</p>';
         //there is only single player
     } else {
         playersIcon.innerHTML = '<img src="pics/' + character + '.png" id="' + characterId + '"><p>' + characterId + ' the ' + character + '</p>';

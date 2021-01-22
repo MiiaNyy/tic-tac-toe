@@ -1,6 +1,6 @@
 /*All of the media querrys*/
 
-@media screen and (max-width: 950px) and (min-width: 660px) {
+@media screen and (max-width: 950px){
     .container {
         max-width: 600px;
     }
@@ -23,7 +23,7 @@
 
 
 
-@media screen and (max-width: 659px) and (min-width:450px) {
+@media screen and (max-width: 659px){
     .container {
         max-width: 80%;
     }
@@ -52,8 +52,7 @@
         grid-column-gap: 5px;
     }
 
-    .mark2-container {
-        
+    .mark2-container {        
         grid-template-columns: 1fr 7px 1fr;
         grid-template-rows: repeat(1, 100px);
         grid-row-gap: 10px;
@@ -68,12 +67,6 @@
     }
     .player-container {
         max-width: 50%;
-        top: 300px;
-    }
-
-    .players-icon {
-        width: 90px;
-        height: 90px;
     }
 
     .gameboard {
@@ -86,20 +79,20 @@
         font-size: 90px;
     }
 
-    #single-player {
+    /*#single-player {
         top: 330px;
-    }
+    }*/
 }
 
 @media screen and (max-width: 450px) {
 
 
     .player-count-container {
-        grid-template-columns: 1fr 25px 2fr;
+        grid-template-columns: 1fr 20px 2fr;
         grid-template-rows: 50px 100px;
         grid-column-gap: 3px;
         grid-row-gap: 3px;
-        width: 90%;
+        width: 100%;
     }
 
     .player-count-container h2 {
@@ -121,13 +114,6 @@
         margin-bottom: 0px;
     }
 
-    .character-container p {
-        display: none;
-    }
-
-    .players-grid-container {
-        grid-template-columns: 220px;
-    }
 
     .mark-container {
         grid-template-columns: repeat(3, 80px);
@@ -143,10 +129,7 @@
     }
 
     .mark-grid-container {
-        grid-template-columns: repeat(2, 1fr);
         grid-template-rows: 25vw;
-        grid-column-gap: 5px;
-        justify-items: center;
     }
 
     .mark2-container {        
@@ -161,26 +144,22 @@
         font-size: 0.6em;
     }
     .player-container {
-        max-width: 50%;
-        top: 300px;
+        top: 460px;
     }
 
-    .players-icon {
-        width: 90px;
-        height: 90px;
-    }
 
     .gameboard {
-        margin-top: 250px;
-        grid-template-columns: repeat(3, 100px);
-        grid-template-rows: repeat(3, 100px);
+        margin-top: 200px;
+        grid-template-columns: repeat(3, 90px);
+        grid-template-rows: repeat(3, 90px);
     }
 
     .game-cell {
-        font-size: 80px;
+        font-size: 70px;
     }
 
-    #single-player {
-        top: 330px;
+    #new-round {
+        margin-right: 20px;
     }
+
 }
